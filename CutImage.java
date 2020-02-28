@@ -31,20 +31,35 @@ public class CutImage extends JPanel {
   public void paint(Graphics g){
 
     Graphics2D g2d = (Graphics2D) g;
-    g2d.drawImage(i, 10, 10, null);
+    g2d.drawImage(i, 0, 0, null);
 
     ArrayList<BufferedImage> listCut = new  ArrayList<BufferedImage>();
+    int height;
+
+    //check si la taille de l'image est un multiple de 20 px
+    if ((Math.ceil(bufferedImage.getHeight()/20))%20 == 0) {
+      height = (int)Math.ceil(bufferedImage.getHeight()/20)+1;
+    } else {
+      height = (int)Math.ceil(bufferedImage.getHeight()/20);
+    }
+    System.out.println(height);
     try{
       System.out.println(bufferedImage.getWidth());
       System.out.println(bufferedImage.getHeight());
-      for (int y = 0; y < bufferedImage.getHeight(); y += 20) {
-        listCut.add(bufferedImage.getSubimage(0,y,bufferedImage.getWidth(), 20));
+      for (int y = 0; y < height; y++) {
+        int hei = height;
+        if (bufferedImage.getHeight() - height*y < 20) {
+          hei = bufferedImage.getHeight() - height*y;
+        }
+        listCut.add(bufferedImage.getSubimage(0,height*y,bufferedImage.getWidth(), hei));
       }
 
 
 
-    }catch(Exception e){}
-      int c =-10;
+    }catch(Exception e){
+
+    }
+      int c = 0;
       int idy = 0;
       for (BufferedImage img : listCut) {
         AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
@@ -52,10 +67,13 @@ public class CutImage extends JPanel {
         AffineTransformOp op = new AffineTransformOp(tx,
         AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         BufferedImage bimg = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
-        ImageIO.write(bimg, "jpg", new File("res_" + idy++ + ".jpg"));
+        try {
+          ImageIO.write(bimg, "jpg", new File("res_" + (idy++) + ".jpg"));
+
+        } catch(Exception e) {}
 
         bimg = op.filter(img, null);
-        g2d.drawImage(bimg, null, 290, c+=22);
+        g2d.drawImage(bimg, null, bufferedImage.getHeight(), c+=height);
       }
 
   }
@@ -65,7 +83,7 @@ public class CutImage extends JPanel {
     JFrame frame = new JFrame("Flip image");
     frame.add(new CutImage(args[0]));
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(570, 230);
+    frame.setSize(1000, 600);
     frame.setLocationRelativeTo(null);
     frame.setVisible(true);
 
