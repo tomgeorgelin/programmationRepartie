@@ -17,6 +17,7 @@ public class CutImage extends JPanel {
   String image;
   Image i;
   BufferedImage bufferedImage;
+  int nbB;
 
   public CutImage(String m) {
     this.image = m;
@@ -39,16 +40,19 @@ public class CutImage extends JPanel {
     //check si la taille de l'image est un multiple de 20 px
     if ((Math.ceil(bufferedImage.getHeight()/20))%20 == 0) {
       height = (int)Math.ceil(bufferedImage.getHeight()/20)+1;
+      nbB = 20;
     } else {
       height = (int)Math.ceil(bufferedImage.getHeight()/20);
+        nbB = 21;
     }
-    System.out.println(height);
+
     try{
       System.out.println(bufferedImage.getWidth());
       System.out.println(bufferedImage.getHeight());
-      for (int y = 0; y < height; y++) {
+
+      for (int y = 0; y < nbB ; y++) {
         int hei = height;
-        if (bufferedImage.getHeight() - height*y < 20) {
+        if (bufferedImage.getHeight() - height*y < height) {
           hei = bufferedImage.getHeight() - height*y;
         }
         listCut.add(bufferedImage.getSubimage(0,height*y,bufferedImage.getWidth(), hei));
