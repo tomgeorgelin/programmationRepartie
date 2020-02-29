@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
 import java.util.*;
 
+import javax.swing.ImageIcon;
 import java.io.*;
 import javax.imageio.ImageIO;
 
@@ -11,7 +12,7 @@ import java.awt.image.BufferedImage;
 
 public class CutImage implements ServiceCutImage {
 	private ArrayList<ServiceReverseImage> clientList;
-	private ArrayList<Bande> bandeList;
+	transient ArrayList<Bande> bandeList;
 	private BufferedImage bufferedImage;
 
 	public CutImage(String file) {
@@ -28,6 +29,7 @@ public class CutImage implements ServiceCutImage {
 
 	public void enregistrerClient(ServiceReverseImage c) throws RemoteException {
 		this.clientList.add(c);
+		System.out.println("client ajouté");
 		for (int i = 0 ; i < this.bandeList.size() ; i++) {
 			this.clientList.get(i%this.clientList.size()).traitement(this.bandeList.get(i));
 		}
@@ -48,8 +50,7 @@ public class CutImage implements ServiceCutImage {
 				if (this.bufferedImage.getHeight() - height*y < height) {
 				  height = (this.bufferedImage.getHeight() - height*y);
 				}
-				System.out.println(height);
-				this.bandeList.add(new Bande(y-1,this.bufferedImage.getSubimage(0,height,this.bufferedImage.getWidth(), height)));
+				this.bandeList.add(new Bande(y-1,new ImageIcon(this.bufferedImage.getSubimage(0,height,this.bufferedImage.getWidth(), height))));
 			}
 		}
 		catch(Exception e) {

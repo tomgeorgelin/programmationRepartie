@@ -12,5 +12,5 @@ import javax.imageio.ImageIO;
 interface ServiceCutImage extends Remote {
 	public void enregistrerClient(ServiceReverseImage client) throws RemoteException;
 
-	public void cutImages() throws RemoteException;
+	public void cutImages();
 }
