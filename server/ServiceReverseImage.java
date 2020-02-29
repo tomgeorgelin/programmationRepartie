@@ -7,6 +7,6 @@ import java.rmi.RemoteException;
 import java.awt.image.BufferedImage;
 interface ServiceReverseImage extends Remote {
 	
-	public BufferedImage traitement(Bande img) throws RemoteException;
+	public Bande traitement(Bande img) throws RemoteException;
 
 }
