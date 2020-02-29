@@ -73,7 +73,8 @@ public class CutImage extends JPanel {
         } catch(Exception e) {}
 
         bimg = op.filter(img, null);
-        g2d.drawImage(bimg, null, bufferedImage.getHeight(), c+=height);
+        g2d.drawImage(bimg, null, bufferedImage.getHeight(), c);
+        c+=height;
       }
 
   }
