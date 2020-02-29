@@ -8,6 +8,8 @@ import java.io.*;
 import javax.imageio.ImageIO;
 import java.util.ArrayList;
 
+import java.awt.Graphics2D;
+
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.RemoteException;
@@ -22,14 +24,18 @@ class ReverseImage implements ServiceReverseImage {
 	}	
 
 	public Bande traitement(Bande img) {
+		Image imgI = img.getImage().getImage();
+		BufferedImage imgB = new BufferedImage(imgI.getWidth(null), imgI.getHeight(null),BufferedImage.TYPE_INT_ARGB);
+		Graphics2D bGr = imgB.createGraphics();
+    	bGr.drawImage(imgI, 0, 0, null);
+    	bGr.dispose();
 		if (!this.bandeList.contains(img)) {
 			AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
-	        tx.translate(-img.getImage().getImage().getWidth(null), 0);
-	        AffineTransformOp op = new AffineTransformOp(tx,
-	        AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-	        BufferedImage bimg = new BufferedImage(img.getImage().getImage().getWidth(null), img.getImage().getImage().getHeight(null), BufferedImage.TYPE_INT_RGB);
+	        tx.translate(-imgB.getWidth(null), 0);
+	        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+	        BufferedImage bimg = new BufferedImage(imgB.getWidth(null), imgB.getHeight(null), BufferedImage.TYPE_INT_RGB);
 
-	        bimg = op.filter((BufferedImage) img.getImage().getImage(), null);
+	        bimg = op.filter(imgB, null);
 	        System.out.println("flip : " + img.getNb());
 	        return new Bande(img.getNb(),new ImageIcon(bimg));
 		}
