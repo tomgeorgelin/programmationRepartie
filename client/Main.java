@@ -16,7 +16,7 @@ public class Main {
         ServiceReverseImage l = (ServiceReverseImage) UnicastRemoteObject.exportObject(ri, 0);
 
 
-        service.enregistrerClient(ri);
+        service.enregistrerClient(l);
 
       } catch(Exception e) {
         e.printStackTrace();
