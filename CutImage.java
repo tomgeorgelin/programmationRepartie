@@ -67,12 +67,12 @@ public class CutImage extends JPanel {
         AffineTransformOp op = new AffineTransformOp(tx,
         AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         BufferedImage bimg = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
+
+        bimg = op.filter(img, null);
         try {
           ImageIO.write(bimg, "jpg", new File("res_" + (idy++) + ".jpg"));
 
         } catch(Exception e) {}
-
-        bimg = op.filter(img, null);
         g2d.drawImage(bimg, null, bufferedImage.getHeight(), c);
         c+=height;
       }
