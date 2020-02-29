@@ -7,7 +7,7 @@ import java.rmi.NotBoundException;
 public class Main {
     public static void main (String[] args)throws RemoteException, NotBoundException {
       try {
-        String ip = "localhost";
+        String ip = args[0];
         int port = 1099;
         Registry annuaire = LocateRegistry.getRegistry(ip, port);
         ServiceCutImage service = (ServiceCutImage) annuaire.lookup("reverseImage");
