@@ -1,11 +1,12 @@
 import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import java.io.Serializable;
 
 public class Bande implements Serializable {
 	private int numero;
-	private BufferedImage image;
+	private ImageIcon image;
 
-	public Bande (int n,BufferedImage img) {
+	public Bande (int n, ImageIcon img) {
 		this.numero = n;
 		this.image = img;
 	}
@@ -14,7 +15,7 @@ public class Bande implements Serializable {
 		return this.numero;
 	}
 
-	public BufferedImage getImage() {
+	public ImageIcon getImage() {
 		return this.image;
 	}
 }
