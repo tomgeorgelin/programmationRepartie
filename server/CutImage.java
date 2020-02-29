@@ -13,11 +13,15 @@ import java.awt.image.BufferedImage;
 public class CutImage implements ServiceCutImage {
 	private ArrayList<ServiceReverseImage> clientList;
 	transient ArrayList<Bande> bandeList;
+
+	private ArrayList<Bande> flipBandes;
+
 	private BufferedImage bufferedImage;
 
-	public CutImage(String file) {
+	public CutImage(String file) throws RemoteException {
 		this.clientList = new ArrayList<>();
 		this.bandeList = new ArrayList<>();
+		this.flipBandes = new ArrayList<>();
 		try{
 			this.bufferedImage = ImageIO.read(new File(file));
 		}
@@ -31,11 +35,16 @@ public class CutImage implements ServiceCutImage {
 		this.clientList.add(c);
 		System.out.println("client ajouté");
 		for (int i = 0 ; i < this.bandeList.size() ; i++) {
-			this.clientList.get(i%this.clientList.size()).traitement(this.bandeList.get(i));
+			this.flipBandes.add(this.clientList.get(i%this.clientList.size()).traitement(this.bandeList.get(i)));
+			if (i == this.bandeList.size()-1) {
+				//créer image;
+				System.out.println("imageCréée");
+			}
+
 		}
 	}
 
-	public void cutImages() {
+	public void cutImages() throws RemoteException {
 		int height, nbB;
 
 		if ((Math.ceil(this.bufferedImage.getHeight()/20))%20 == 0) {
@@ -50,7 +59,7 @@ public class CutImage implements ServiceCutImage {
 				if (this.bufferedImage.getHeight() - height*y < height) {
 				  height = (this.bufferedImage.getHeight() - height*y);
 				}
-				this.bandeList.add(new Bande(y-1,new ImageIcon(this.bufferedImage.getSubimage(0,height,this.bufferedImage.getWidth(), height))));
+				this.bandeList.add(new Bande(y,new ImageIcon(this.bufferedImage.getSubimage(0,height,this.bufferedImage.getWidth(), height))));
 			}
 		}
 		catch(Exception e) {
