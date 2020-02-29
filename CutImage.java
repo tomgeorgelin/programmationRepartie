@@ -43,19 +43,19 @@ public class CutImage extends JPanel {
       nbB = 20;
     } else {
       height = (int)Math.ceil(bufferedImage.getHeight()/20);
-        nbB = 21;
+      nbB = 21;
     }
+    System.out.println(nbB);
 
     try{
       System.out.println(bufferedImage.getWidth());
       System.out.println(bufferedImage.getHeight());
 
       for (int y = 0; y < nbB ; y++) {
-        int hei = height;
-        if (bufferedImage.getHeight() - height*y < height) {
-          hei = bufferedImage.getHeight() - height*y;
+        if (bufferedImage.getHeight() - height*y > height) {
+          height = (bufferedImage.getHeight() - height*y);
         }
-        listCut.add(bufferedImage.getSubimage(0,height*y,bufferedImage.getWidth(), hei));
+        listCut.add(bufferedImage.getSubimage(0,height*y,bufferedImage.getWidth(), height));
       }
 
 
