@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 public class Main {
 	public static void main (String[] args) {
 		try {
-			ServiceCutImage ci = new CutImage(args[0]);
+			ServiceCutImage ci = new CutImage();
 
 			Registry reg = LocateRegistry.getRegistry();
 
@@ -24,6 +24,4 @@ public class Main {
 		  e.printStackTrace();
 		}
 	}
-
-
 }
