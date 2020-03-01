@@ -36,7 +36,7 @@ class ReverseImage implements ServiceReverseImage {
 	        BufferedImage bimg = new BufferedImage(imgB.getWidth(null), imgB.getHeight(null), BufferedImage.TYPE_INT_RGB);
 
 	        bimg = op.filter(imgB, null);
-	        System.out.println("flip : " + img.getNb());
+	        System.out.println("Vous avez recu la bande numero : " + img.getNb());
 	        return new Bande(img.getNb(),new ImageIcon(bimg));
 		}
 		else {
