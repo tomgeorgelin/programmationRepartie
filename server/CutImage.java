@@ -58,7 +58,13 @@ public class CutImage implements ServiceCutImage {
 	public ImageIcon lancerDistribution() throws RemoteException{
 		BufferedImage result = new BufferedImage(this.bufferedImage.getWidth(), this.bufferedImage.getHeight(), BufferedImage.TYPE_INT_RGB);
 		for (int i = 0 ; i < this.bandeList.size() ; i++) {
-			this.flipBandes.add(this.clientList.get(i%this.clientList.size()).traitement(this.bandeList.get(i)));
+			try {
+				this.flipBandes.add(this.clientList.get(i%this.clientList.size()).traitement(this.bandeList.get(i)));
+			}
+			catch (RemoteException e) {
+				this.flipBandes.add(this.clientList.get((i+1)%this.clientList.size()).traitement(this.bandeList.get(i)));
+				this.clientList.remove(i%this.clientList.size());
+			}
 			System.out.println("Bande numero : " + i + " donnee au client numero : " + i%this.clientList.size());
 			if (i == this.bandeList.size()-1) {
     			Graphics2D g = (Graphics2D)result.getGraphics();
